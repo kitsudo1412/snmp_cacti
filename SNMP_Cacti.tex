@@ -1,0 +1,135 @@
+\documentclass[12pt,oneside,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{vietnam}
+% package for including graphics with figure-environment
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,exscale,eucal,amsthm, mathrsfs}
+
+%\DeclareMathSizes{12}{15}{9}{9}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{tabularx}
+
+\usepackage[top=3.5cm, bottom=3cm, left=2cm, right=2cm] {geometry}
+% colors for hyperlinks
+% colored borders (false) colored text (true)
+\usepackage{wrapfig}
+\usepackage{color}
+%\usepackage{caption}
+% package for bibliography
+%\usepackage[round, sort, numbers]{natbib}
+% package for header
+\usepackage[automark]{scrpage2}
+\pagestyle{scrheadings}
+\ihead[]{Quy hoạch nguyên đa mục tiêu - Đào Tuấn Anh}
+\ohead[]{\today}
+\cfoot[]{\pagemark} 
+\setheadsepline[122mm]{0.3mm}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Định lý}[section]
+\newtheorem{lemma}{Bổ đề}[section]
+\newtheorem{procedure}{Thủ tục}[section]
+\newtheorem{definition}{Định nghĩa}[section]
+\newtheorem{statement}{Mệnh đề}[section]
+
+\usepackage{enumitem}
+
+\newlist{steps}{enumerate}{1}
+\setlist[steps,1]{
+  label={Bước~\arabic*.},
+  leftmargin=*,
+  align=left,
+  labelsep=10mm,
+  itemindent=\dimexpr\labelsep+\labelwidth+7pt\relax
+}
+
+\begin{document}
+		
+		\addtolength{\leftskip}{5em} \addtolength{\rightskip}{2em}
+		
+		\begin{wrapfigure}[5]{l}{5em}\centering
+			\includegraphics[width=0.1\textwidth]{bkhn.jpg}
+		\end{wrapfigure}
+		
+		\noindent  \\
+		 \\
+		 \\
+		Trường Đại học Bách Khoa Hà Nội \\
+		Viện Toán ứng dụng và Tin học
+		
+		\addtolength{\leftskip}{-5em} \addtolength{\rightskip}{-2em}% Restore margins
+
+		\title{\Huge{Báo cáo bài tập lớn}\\ \large{Môn: Thiết kế, cài đặt và quản trị mạng máy tính}\\}
+	
+	
+	
+	\vspace{1cm}
+	
+	\author{Đề tài: Tìm hiểu về SNMP và công cụ giám sát mạng Cacti}
+	
+	\vspace{1cm}
+	
+	% name of the course and module
+	\date{
+	\vspace{1cm}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{rl}
+			\large Sinh viên thực hiện: & \large Đào Tuấn Anh (MSSV: 20121178)\\
+                    						& \large Vũ Thanh Tùng (MSSV: 20124917)
+		\end{tabular}
+	\end{table}	
+	\vspace{1cm}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{rl}
+			\large Giáo viên hướng dẫn: & \large ThS. Nguyễn Tuấn Dũng\\
+		\end{tabular}
+	\end{table}
+	\vspace{1cm}
+	Hà Nội, \today
+	}
+	\global\let\newpagegood\newpage
+	\global\let\newpage\relax\maketitle
+	\global\let\newpage\newpagegood
+	
+	\setlength{\parindent}{0pt}
+
+	\newpage
+	\tableofcontents
+	\newpage
+	
+
+\section*{Lời mở đầu}
+\addcontentsline{toc}{section}{\protect\numberline{}Lời mở đầu}%
+
+Hệ thống giám sát an toàn mạng đóng vai trò quan trọng, không thể thiếu trong hạ tầng công nghệ thông tin (CNTT) của các cơ quan, đơn vị, tổ chức. Hệ thống này cho phép thu thập, chuẩn hóa, lưu trữ và phân tích tương quan toàn bộ các sự kiện an toàn mạng được sinh ra trong hệ thống CNTT của tổ chức.\\
+
+Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truyền đạt kiến thức trong suốt môn học. Tuy nhiên trong khoảng thời gian cho phép, việc nghiên cứu và trình bày không thể tránh khỏi nhầm lẫn thiếu sót, em mong nhận được sự giúp đỡ đóng góp của thầy cô và bạn bè để bài báo cáo được hoàn thiện hơn.\\
+\newpage
+
+\section{Tìm hiểu về giao thức SNMP}
+\subsection{Tổng quan về giám sát mạng (Network Monitoring)}
+\subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol}
+\subsubsection{Giới thiệu giao thức SNMP}
+
+\section{Công cụ giám sát mạng Cacti}
+\subsection{Giới thiệu về công cụ giám sát mạng Cacti}
+\subsection{Kiến trúc phần mềm Cacti}
+\subsection{Cài đặt Cacti trên Windows}
+\subsection{Ứng dụng Cacti trong giám sát mạng}
+
+\newpage
+\section*{Tài liệu tham khảo}
+\addcontentsline{toc}{section}{\protect\numberline{}Tài liệu tham khảo}%
+%\bibliographystyle{ksfh_nat}
+%	\bibliography{references} % expects file "references.bib"
+\begin{enumerate}
+\item{Wikipedia, "Simple Network Management Protocol", https://en.wikipedia.org/wiki/SNMP}
+\item{Wikipedia, "Network monitoring", https://en.wikipedia.org/wiki/Network\_monitoring}
+\item{TBT - VNCERT, "Tổng quan về hệ thống giám sát mạng", http://www.vncert.gov.vn/}
+\item{Diệp Thanh Nguyên, "SNMP Toàn tập", https://sites.google.com/site/snmptoantap/home}
+\end{enumerate}
+	
+
+\end{document}
