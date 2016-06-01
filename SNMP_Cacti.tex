@@ -94,14 +94,34 @@ Do đó, các hệ thống giám sát an toàn mạng ra đời, đóng vai trò
 Nội dung dưới đây có đề cập đến giao thức quản lý mạng SNMP (Simple Network Management Protocol). SNMP là một tập hợp các giao thức không chỉ cho phép kiểm tra các thiết bị mạng như router, switch hay server có đang vận hành mà còn hỗ trợ vận hành các thiết bị này một cách tối ưu, ngoài ra SNMP còn cho phép quản lý các thiết bị mạng từ xa. Bên cạnh đó, báo cáo còn đề cập đến Cacti, một hệ thống quản lý tài nguyên mạng mã nguồn mở. Phần mềm này đáp ứng nhu cầu quản lý mạng một cách toàn diện với nhiều tính năng linh hoạt vượt trội.\\
 
 Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truyền đạt kiến thức trong suốt môn học. Tuy nhiên trong khoảng thời gian cho phép, việc nghiên cứu và trình bày không thể tránh khỏi nhầm lẫn thiếu sót, em mong nhận được sự giúp đỡ đóng góp của thầy cô và bạn bè để bài báo cáo được hoàn thiện hơn.\\
-
+\vspace{1cm}
 \textit{Sinh viên}\\
 
 Đào Tuấn Anh - Vũ Thanh Tùng
 \newpage
 
 \section{Tìm hiểu về giao thức SNMP}
-\subsection{Tổng quan về giám sát mạng (Network Monitoring)}
+\subsection{Tổng quan về quản lý hệ thống mạng}
+\subsection{Các yêu cầu quản lý hệ thống mạng}
+Các cơ chế quản lý mạng được nhìn nhận từ hai góc độ, góc độ mạng chỉ ra hệ thống mạng nằm các vị trí mức cao của mô hình OSI và từ phía người điều hành quản lý hệ thống mạng. Mặc dù có rất nhiều quan điểm khác nhau về mô hình quản lý hệ thống nhưng đều thống nhất bởi ba chức năng quản lý cơ bản gồm: giám sát, điều khiển và đưa ra báo cáo tới người điều hành.
+
+\begin{itemize}
+\item Chức năng giám sát: có nhiệm vụ thu thập liên tục các thông tin về trạng thái của các tài nguyên được quản lý sau đó chuyển các thông tin này dưới dạng các sự kiện và đưa ra các cảnh báo khi các tham số của tài nguyên mạng được quản lý vượt quá ngưỡng cho phép.
+\item Chức năng quản lý: có nhiệm vụ thực hiện các yêu cầu của người quản lý hoặc các ứng dụng quản lý nhằm thay đổi trạng thái hay cấu hình của một tài nguyên được quản lý nào đó.
+\item Chức năng đưa ra báo cáo: có nhiệm vụ chuyển đổi và hiển thị các báo cáo dưới dạng mà người quản lý có thể đọc, đánh giá hoặc tìm kiếm, tra cứu thông tin được báo cáo.
+\end{itemize}
+
+Dưới góc độ của người điều hành quản lý mạng, một số yêu cầu thường được đặt ra gồm:
+\begin{itemize}
+\item Khả năng giám sát và điều khiển mạng cũng như các thành phần của hệ thống thiết bị từ đầu cuối đến đầu cuối.
+\item Có thể truy nhập và cấu hình lại từ xa các tài nguyên được quản lý.
+\item Dễ dàng trong việc cài đặt, vận hành và bảo dưỡng hệ thống quản lý.
+\item Bảo mật hoạt động quản lý và truy nhập của người sử dụng, bảo mật truyền thông các thông tin quản lý.
+\item Có khả năng đưa ra các báo cáo đầy đủ và rõ nghĩa về các thông tin quản lý.
+\item Quản lý theo thời gian thực và hoạt động quản lý hàng ngày được thực hiện một cách tự động.
+\item Mềm dẻo trong việc nâng cấp hệ thống và có khả năng tương thích với nhiều công nghệ khác nhau.
+\item Có khả năng lưu trữ và khôi phục các thông tin quản lý.
+\end{itemize}
 \subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol}
 \subsubsection{Giới thiệu giao thức SNMP}
 \subsubsection{Ưu điểm của giao thức SNMP}
