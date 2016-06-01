@@ -89,7 +89,7 @@
 \addcontentsline{toc}{section}{\protect\numberline{}Lời mở đầu}%
 Sự phát triển không ngừng nghỉ của công nghệ thông tin đã tạo ra những thay đổi lớn trong cơ sở hạ tầng, lực lượng sản xuất, tính chất lao động, cấu trúc kinh tế và cả cách thức quản lý trong các lĩnh vực của xã hội. Một trong những yếu tố quyết định, cũng là một nhu cầu tất yếu là việc trao đổi thông tin giữa các thiết bị thông qua mạng máy tính. Sự tăng nhanh về kích cỡ của các hệ thống mạng đã và đang đưa ra thách thức không nhỏ cho người quản trị trong việc theo dõi và quản lý.\\
 
-Do đó, các hệ thống giám sát an toàn mạng ra đời, đóng vai trò quan trọng, không thể thiếu trong hạ tầng công nghệ thông tin của các cơ quan, đơn vị, tổ chức. Hệ thống này cho phép thu thập, chuẩn hóa, lưu trữ và phân tích tương quan toàn bộ các sự kiện được sinh ra trong hệ thống mạng của tổ chức. Từ đó người quản trị có thể dễ dàng đưa ra phân tích, thống kê, cảnh báo, nắm bắt thực trạng tài nguyên, đồng thời ngăn chặn các mối nguy hiểm cho hệ thống.\\
+Do đó, các hệ thống giám sát an toàn mạng ra đời, đóng vai trò quan trọng, không thể thiếu trong hạ tầng công nghệ thông tin của các cơ quan, đơn vị, tổ chức. Hệ thống này cho phép thu thập, chuẩn hóa, lưu trữ và phân tích tương quan toàn bộ các sự kiện được sinh ra trong hệ thống mạng của tổ chức. Từ đó người quản trị có thể dễ dàng đưa ra phân tích, thống kê, cảnh báo, nắm bắt thực trạng tài nguyên, khắc phục sự cố, đồng thời ngăn chặn sớm các mối nguy hiểm cho hệ thống.\\
 
 Nội dung dưới đây có đề cập đến giao thức quản lý mạng SNMP (Simple Network Management Protocol). SNMP là một tập hợp các giao thức không chỉ cho phép kiểm tra các thiết bị mạng như router, switch hay server có đang vận hành mà còn hỗ trợ vận hành các thiết bị này một cách tối ưu, ngoài ra SNMP còn cho phép quản lý các thiết bị mạng từ xa. Bên cạnh đó, báo cáo còn đề cập đến Cacti, một hệ thống quản lý tài nguyên mạng mã nguồn mở. Phần mềm này đáp ứng nhu cầu quản lý mạng một cách toàn diện với nhiều tính năng linh hoạt vượt trội.\\
 
@@ -102,27 +102,17 @@ Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truy
 
 \section{Tìm hiểu về giao thức SNMP}
 \subsection{Tổng quan về quản lý hệ thống mạng}
-\subsection{Các yêu cầu quản lý hệ thống mạng}
-Các cơ chế quản lý mạng được nhìn nhận từ hai góc độ, góc độ mạng chỉ ra hệ thống mạng nằm các vị trí mức cao của mô hình OSI và từ phía người điều hành quản lý hệ thống mạng. Mặc dù có rất nhiều quan điểm khác nhau về mô hình quản lý hệ thống nhưng đều thống nhất bởi ba chức năng quản lý cơ bản gồm: giám sát, điều khiển và đưa ra báo cáo tới người điều hành.
+\subsubsection{Khái niệm quản lý hệ thống mạng}
+Quản lý hệ thống mạng là việc thực hiện tập hợp các chức năng cần thiết cho việc kiểm soát, lập kế hoạch, phân bổ, triển khai, phối hợp và giám sát các nguồn tài nguyên trong hệ thống. Nó thường được áp dụng cho các mạng quy mô lớn như mạng máy tính và mạng viễn thông, đề cập đến việc duy trì và quản trị mạng ở cấp cao nhất.
+\subsubsection{Khái niệm giám sát mạng}
+Giám sát mạng là việc sử dụng một hệ thống liên tục theo dõi hoạt động của một mạng máy tính, thông báo ngay lập tức và cho phép người quản trị mạng biết trong trường hợp xảy ra sự cố ảnh hưởng đến tốc độ hoặc lỗi mạng.\\
 
-\begin{itemize}
-\item Chức năng giám sát: có nhiệm vụ thu thập liên tục các thông tin về trạng thái của các tài nguyên được quản lý sau đó chuyển các thông tin này dưới dạng các sự kiện và đưa ra các cảnh báo khi các tham số của tài nguyên mạng được quản lý vượt quá ngưỡng cho phép.
-\item Chức năng quản lý: có nhiệm vụ thực hiện các yêu cầu của người quản lý hoặc các ứng dụng quản lý nhằm thay đổi trạng thái hay cấu hình của một tài nguyên được quản lý nào đó.
-\item Chức năng đưa ra báo cáo: có nhiệm vụ chuyển đổi và hiển thị các báo cáo dưới dạng mà người quản lý có thể đọc, đánh giá hoặc tìm kiếm, tra cứu thông tin được báo cáo.
-\end{itemize}
+Giám sát mạng là một phần trong quản lý hệ thống mạng.\\
 
-Dưới góc độ của người điều hành quản lý mạng, một số yêu cầu thường được đặt ra gồm:
-\begin{itemize}
-\item Khả năng giám sát và điều khiển mạng cũng như các thành phần của hệ thống thiết bị từ đầu cuối đến đầu cuối.
-\item Có thể truy nhập và cấu hình lại từ xa các tài nguyên được quản lý.
-\item Dễ dàng trong việc cài đặt, vận hành và bảo dưỡng hệ thống quản lý.
-\item Bảo mật hoạt động quản lý và truy nhập của người sử dụng, bảo mật truyền thông các thông tin quản lý.
-\item Có khả năng đưa ra các báo cáo đầy đủ và rõ nghĩa về các thông tin quản lý.
-\item Quản lý theo thời gian thực và hoạt động quản lý hàng ngày được thực hiện một cách tự động.
-\item Mềm dẻo trong việc nâng cấp hệ thống và có khả năng tương thích với nhiều công nghệ khác nhau.
-\item Có khả năng lưu trữ và khôi phục các thông tin quản lý.
-\end{itemize}
-\subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol}
+Một hệ thống giám sát mạng sẽ theo dõi hệ thống mạng gây ra bởi quá tải hay máy chủ bị sập, bởi các kết nối trong mạng hoặc từ các thiết bị khác. Các thông số đánh giá thường gặp là thời gian phản hồi, hiệu lực và thời gian vận hành tối thiểu trung bình (uptime). Ngoài ra còn có các thông số phổ biến khác như độ ổn định hay độ tin cậy.\\
+
+Ví dụ, để kiểm tra một máy chủ Web, phần mềm giám sát sẽ gửi đều đặn các truy vấn HTTP để lấy nội dung trang web. Ở các máy chủ thư, các gói tin kiểm tra sẽ được gửi đều đặn thông qua SMTP, và nhận lại qua IMAP hoặc POP3.
+\subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol)}
 \subsubsection{Giới thiệu giao thức SNMP}
 \subsubsection{Ưu điểm của giao thức SNMP}
 \subsubsection{Các phiên bản giao thức SNMP}
