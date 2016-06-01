@@ -20,7 +20,7 @@
 % package for header
 \usepackage[automark]{scrpage2}
 \pagestyle{scrheadings}
-\ihead[]{Quy hoạch nguyên đa mục tiêu - Đào Tuấn Anh}
+\ihead[]{Tìm hiểu về SNMP và công cụ giám sát mạng Cacti - Đào Tuấn Anh, Vũ Thanh Tùng}
 \ohead[]{\today}
 \cfoot[]{\pagemark} 
 \setheadsepline[122mm]{0.3mm}
@@ -102,10 +102,16 @@
 
 \section*{Lời mở đầu}
 \addcontentsline{toc}{section}{\protect\numberline{}Lời mở đầu}%
+Sự phát triển không ngừng nghỉ của công nghệ thông tin đã tạo ra những thay đổi lớn trong cơ sở hạ tầng, lực lượng sản xuất, tính chất lao động, cấu trúc kinh tế và cả cách thức quản lý trong các lĩnh vực của xã hội. Một trong những yếu tố quyết định, cũng là một nhu cầu tất yếu là việc trao đổi thông tin giữa các thiết bị thông qua mạng máy tính. Sự tăng nhanh về kích cỡ của các hệ thống mạng đã và đang đưa ra thách thức không nhỏ cho người quản trị trong việc theo dõi và quản lý.\\
 
-Hệ thống giám sát an toàn mạng đóng vai trò quan trọng, không thể thiếu trong hạ tầng công nghệ thông tin (CNTT) của các cơ quan, đơn vị, tổ chức. Hệ thống này cho phép thu thập, chuẩn hóa, lưu trữ và phân tích tương quan toàn bộ các sự kiện an toàn mạng được sinh ra trong hệ thống CNTT của tổ chức.\\
+Do đó, các hệ thống giám sát an toàn mạng ra đời, đóng vai trò quan trọng, không thể thiếu trong hạ tầng công nghệ thông tin của các cơ quan, đơn vị, tổ chức. Hệ thống này cho phép thu thập, chuẩn hóa, lưu trữ và phân tích tương quan toàn bộ các sự kiện được sinh ra trong hệ thống mạng của tổ chức. Từ đó người quản trị có thể dễ dàng đưa ra phân tích, thống kê, cảnh báo, nắm bắt thực trạng tài nguyên, đồng thời ngăn chặn các mối nguy hiểm cho hệ thống.\\
+
+Nội dung dưới đây có đề cập đến giao thức quản lý mạng SNMP (Simple Network Management Protocol). SNMP là một tập hợp các giao thức không chỉ cho phép kiểm tra các thiết bị mạng như router, switch hay server có đang vận hành mà còn hỗ trợ vận hành các thiết bị này một cách tối ưu, ngoài ra SNMP còn cho phép quản lý các thiết bị mạng từ xa. Bên cạnh đó, báo cáo còn đề cập đến Cacti, một hệ thống quản lý tài nguyên mạng mã nguồn mở. Phần mềm này đáp ứng nhu cầu quản lý mạng một cách toàn diện với nhiều tính năng linh hoạt vượt trội.\\
 
 Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truyền đạt kiến thức trong suốt môn học. Tuy nhiên trong khoảng thời gian cho phép, việc nghiên cứu và trình bày không thể tránh khỏi nhầm lẫn thiếu sót, em mong nhận được sự giúp đỡ đóng góp của thầy cô và bạn bè để bài báo cáo được hoàn thiện hơn.\\
+
+\textit{Sinh viên}
+Đào Tuấn Anh - Vũ Thanh Tùng
 \newpage
 
 \section{Tìm hiểu về giao thức SNMP}
