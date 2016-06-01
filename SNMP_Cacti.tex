@@ -20,28 +20,13 @@
 % package for header
 \usepackage[automark]{scrpage2}
 \pagestyle{scrheadings}
-\ihead[]{Tìm hiểu về SNMP và công cụ giám sát mạng Cacti - Đào Tuấn Anh, Vũ Thanh Tùng}
+\ihead[]{Tìm hiểu về SNMP và công cụ giám sát mạng}
 \ohead[]{\today}
 \cfoot[]{\pagemark} 
 \setheadsepline[122mm]{0.3mm}
 
-\theoremstyle{definition}
-\newtheorem{theorem}{Định lý}[section]
-\newtheorem{lemma}{Bổ đề}[section]
-\newtheorem{procedure}{Thủ tục}[section]
-\newtheorem{definition}{Định nghĩa}[section]
-\newtheorem{statement}{Mệnh đề}[section]
-
 \usepackage{enumitem}
 
-\newlist{steps}{enumerate}{1}
-\setlist[steps,1]{
-  label={Bước~\arabic*.},
-  leftmargin=*,
-  align=left,
-  labelsep=10mm,
-  itemindent=\dimexpr\labelsep+\labelwidth+7pt\relax
-}
 
 \begin{document}
 		
@@ -110,7 +95,8 @@ Nội dung dưới đây có đề cập đến giao thức quản lý mạng SN
 
 Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truyền đạt kiến thức trong suốt môn học. Tuy nhiên trong khoảng thời gian cho phép, việc nghiên cứu và trình bày không thể tránh khỏi nhầm lẫn thiếu sót, em mong nhận được sự giúp đỡ đóng góp của thầy cô và bạn bè để bài báo cáo được hoàn thiện hơn.\\
 
-\textit{Sinh viên}
+\textit{Sinh viên}\\
+
 Đào Tuấn Anh - Vũ Thanh Tùng
 \newpage
 
@@ -118,12 +104,22 @@ Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truy
 \subsection{Tổng quan về giám sát mạng (Network Monitoring)}
 \subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol}
 \subsubsection{Giới thiệu giao thức SNMP}
+\subsubsection{Ưu điểm của giao thức SNMP}
+\subsubsection{Các phiên bản giao thức SNMP}
+\subsubsection{Mô hình hệ thống mạng sử dụng SNMP}
+\subsubsection{Kiến trúc giao thức SNMP}
+\subsubsection{Các cơ chế bảo mật trong SNMP}
 
 \section{Công cụ giám sát mạng Cacti}
 \subsection{Giới thiệu về công cụ giám sát mạng Cacti}
 \subsection{Kiến trúc phần mềm Cacti}
 \subsection{Cài đặt Cacti trên Windows}
-\subsection{Ứng dụng Cacti trong giám sát mạng}
+\subsection{Triển khai và ứng dụng Cacti trong giám sát mạng}
+\subsubsection{Mô hình triển khai}
+\subsubsection{Cấu hình Cacti}
+
+\section*{Kết luận}
+\addcontentsline{toc}{section}{\protect\numberline{}Kết luận}%
 
 \newpage
 \section*{Tài liệu tham khảo}
