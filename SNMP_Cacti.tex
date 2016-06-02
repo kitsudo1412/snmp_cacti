@@ -151,7 +151,7 @@ Có thể bỏ sót các sự kiện : khi Device có thay đổi, sau đó thay
 \end{longtable}
 \subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol)}
 \subsubsection{Giới thiệu giao thức SNMP}
-SNMP (viết tắt từ tiếng Anh: Simple Network Management Protocol) là giao thức quản lý mạng đơn giản.\\
+SNMP (viết tắt từ tiếng Anh: Simple Network Management Protocol) là "giao thức quản lý mạng đơn giản".\\
 
 Rõ thêm, giao thức là một tập hợp các thủ tục mà các bên tham gia cần tuân theo để có thể giao tiếp được với nhau. Trong lĩnh vực thông tin, một giao thức quy định cấu trúc, định dạng của dòng dữ liệu trao đổi với nhau và quy định trình tự, thủ tục để trao đổi dòng dữ liệu đó. Nếu một bên tham gia gửi dữ liệu không đúng định dạng hoặc không theo trình tự thì các bên khác sẽ không hiểu hoặc từ chối trao đổi thông tin. SNMP là một giao thức, do đó nó có những quy định riêng mà các thành phần trong mạng phải tuân theo. Một thiết bị hiểu được và hoạt động tuân theo giao thức SNMP được gọi là “có hỗ trợ SNMP” (SNMP supported) hoặc “tương thích SNMP” (SNMP compartible).\\
 
@@ -176,7 +176,8 @@ Làm tăng lưu lượng đáng kể.\\
 Không có sự điều khiển tổng hợp của nhiều nơi quản lý.\\
 \subsubsection{Các phiên bản giao thức SNMP}
 SNMP có 4 phiên bản: SNMPvl, SNMPv2c, SNMPv2u và SNMPv3. Các phiên bản này khác nhau một chút ớ định dạng bán tin và phương thức hoạt động. Hiện tại SNMPvl là phổ biến nhất do có nhiều thiết bị tương thích nhất và có nhiều phần mềm hồ trợ nhất. Trong khi đó chỉ có một số thiết bị và phần mềm hỗ trợ SNMPv3. 
-\subsubsection{Mô hình hệ thống mạng sử dụng SNMP}
+\subsubsection{Các thành phần chính của giao thức SNMP}
+Theo RFC1157, kiến trúc của SNMP bao gồm 2 thành phần: các trạm quản lý mạng (Network Management Station) và các thành tố mạng (Network Element) 3. Network Management Station thường là một máy tính chạy phần mềm quản lý SNMP (SNMP management application), dùng để giám sát và điều khiển tập trung các network element.
 \subsubsection{Kiến trúc giao thức SNMP}
 \subsubsection{Các cơ chế bảo mật trong SNMP}
 
