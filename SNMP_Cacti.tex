@@ -8,6 +8,7 @@
 %\DeclareMathSizes{12}{15}{9}{9}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{tabularx}
+\usepackage{longtable}
 
 \usepackage[top=3.5cm, bottom=3cm, left=2cm, right=2cm] {geometry}
 % colors for hyperlinks
@@ -87,7 +88,7 @@
 
 \section*{Lời mở đầu}
 \addcontentsline{toc}{section}{\protect\numberline{}Lời mở đầu}%
-Sự phát triển không ngừng nghỉ của công nghệ thông tin đã tạo ra những thay đổi lớn trong cơ sở hạ tầng, lực lượng sản xuất, tính chất lao động, cấu trúc kinh tế và cả cách thức quản lý trong các lĩnh vực của xã hội. Một trong những yếu tố quyết định, cũng là một nhu cầu tất yếu là việc trao đổi thông tin giữa các thiết bị thông qua mạng máy tính. Sự tăng nhanh về kích cỡ của các hệ thống mạng đã và đang đưa ra thách thức không nhỏ cho người quản trị trong việc theo dõi và quản lý.\\
+Sự phát triển không ngừng nghỉ của công nghệ thông tin đã tạo ra những thay đổi lớn trong cơ sở hạ tầng, lực lượng sản xuất, tính chất lao động, cấu trúc kinh tế và cả cách thức quản lý trong các lĩnh vực của xã hội. Một trong những yếu tố quyết định trong đó, cũng là một nhu cầu tất yếu là việc trao đổi thông tin giữa các thiết bị thông qua mạng máy tính. Sự tăng nhanh về kích cỡ của các hệ thống mạng đã và đang đưa ra thách thức không nhỏ cho người quản trị trong việc theo dõi và quản lý.\\
 
 Do đó, các hệ thống giám sát an toàn mạng ra đời, đóng vai trò quan trọng, không thể thiếu trong hạ tầng công nghệ thông tin của các cơ quan, đơn vị, tổ chức. Hệ thống này cho phép thu thập, chuẩn hóa, lưu trữ và phân tích tương quan toàn bộ các sự kiện được sinh ra trong hệ thống mạng của tổ chức. Từ đó người quản trị có thể dễ dàng đưa ra phân tích, thống kê, cảnh báo, nắm bắt thực trạng tài nguyên, khắc phục sự cố, đồng thời ngăn chặn sớm các mối nguy hiểm cho hệ thống.\\
 
@@ -112,10 +113,69 @@ Giám sát mạng là một phần trong quản lý hệ thống mạng.\\
 Một hệ thống giám sát mạng sẽ theo dõi hệ thống mạng gây ra bởi quá tải hay máy chủ bị sập, bởi các kết nối trong mạng hoặc từ các thiết bị khác. Các thông số đánh giá thường gặp là thời gian phản hồi, hiệu lực và thời gian vận hành tối thiểu trung bình (uptime). Ngoài ra còn có các thông số phổ biến khác như độ ổn định hay độ tin cậy.\\
 
 Ví dụ, để kiểm tra một máy chủ Web, phần mềm giám sát sẽ gửi đều đặn các truy vấn HTTP để lấy nội dung trang web. Ở các máy chủ thư, các gói tin kiểm tra sẽ được gửi đều đặn thông qua SMTP, và nhận lại qua IMAP hoặc POP3.
+\subsubsection{Hai phương thức giám sát mạng: Poll và Alert}
+Hai giao thức giám sát “Poll” và “Alert” là 2 phương thức cơ bản của các kỹ thuật giám sát hệ thống, nhiều phần mềm và giao thức được xây dựng dựa trên 2 phương thức này, trong đó có SNMP.\\
+
+\textbf{Phương thức Poll}\\
+
+\begin{center}
+	\includegraphics[scale=0.5]{images/poll.jpg}
+\end{center}
+
+Nguyên tắc hoạt động: Trung tâm giám sát (manager) sẽ thường xuyên hỏi thông tin của các thiết bị cần giám sát (device). Nếu manager không hỏi thì device không trả lời, nếu manager hỏi thì device trả lời. Bằng cách hỏi thường xuyên, manager sẽ luôn cập nhật được thông tin mới nhất từ device.\\
+
+\textbf{Phương thức Alert}\\
+\begin{center}
+	\includegraphics[scale=0.5]{images/alert.jpg}
+\end{center}
+Nguyên tắc hoạt động: Mỗi khi trong device xảy ra một sự kiện (event) nào đó thì device sẽ tự động gửi thông báo cho Manager, gọi là alert. Manager không hỏi thông tin định kỳ từ device.\\
+
+Device chỉ gửi những thông báo mang tính sự kiện chứ không gửi những thông tin thường xuyên thay đổi, nó cũng sẽ không gửi Alert nếu chẳng có sự kiện gì xảy ra. Chẳng hạn khi một port down/up thì Device sẽ gửi cảnh báo, còn tổng số byte truyền qua port đó sẽ không được Device gửi đi vì đó là thông tin thường xuyên thay đổi. Muốn lấy những thông tin thường xuyên thay đổi thì Manager phải chủ động đi hỏi device, tức là phải thực hiện phương thức Poll.\\
+
+\textbf{So sánh 2 phương thức Poll và Alert}\\
+
+Hai phương thức Poll và Alert là hoàn toàn khác nhau về cơ chế. Một ứng dụng giám sát có thể sử dụng Poll hoặc Alert, hoặc cả hai, tùy vào yêu cầu cụ thể trong thực tế.\\
+
+Bảng sau so sánh những điểm khác biệt của 2 phương thức:\\
+
+\begin{longtable}{|p{8cm}|p{8cm}|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\textbf{POLL}}                                                                                                                                                                                                    & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{ALERT}}                                                                                                                                                                                   \\ \hline
+Có thể chủ động lấy những thông tin cần thiết từ các đối tượng mình quan tâm, không cần lấy những thông tin không cần thiết từ những nguồn không quan tâm.                                                                                                     & Tất cả những event xảy ra đều được gửi về Manager. Manager phải có cơ chế lọc những event cần thiết, hoặc Device phải thiết lập được cơ chế chỉ gửi những event cần thiết.                                                                    \\ \hline
+Có thể lập bảng trạng thái tất cả các thông tin của Device sau khi poll qua một lượt các thông tin đó.                                                                                                                                                         & Nếu không có event gì xảy ra thì Manager không biết được trạng thái của Device.                                                                                                                                                               \\ \hline
+Trong trường hợp đường truyền giữa Manager và Device xảy ra gián đoạn và Device có sự thay đổi, thì Manager sẽ không thể cập nhật. Tuy nhiên khi đường truyền thông suốt trở lại thì Manager sẽ cập nhật được thông tin mới nhất do nó luôn luôn poll định kỳ. & Khi đường truyền gián đoạn và Device có sự thay đổi thì nó vẫn gửi Alert cho Manager, nhưng Alert này sẽ không thể đến được Manager. Sau đó mặc dù đường truyền có thông suốt trở lại thì Manager vẫn không thể biết được những gì đã xảy ra. \\ \hline
+Chỉ cần cài đặt tại Manager để trỏ đến tất cả các Device. Có thể dễ dàng thay đổi một Manager khác.                                                                                                                                                            & Phải cài đặt từng Device để trỏ đến Manager. Khi thay đổi Manager thì phải cài đặt lại trên tất cả Device để trỏ về Manager mới.                                                                                                              \\ \hline
+Nếu tần suất poll thấp, thời gian chờ giữa 2 chu kỳ poll dài sẽ làm Manager chậm cập nhật các thay đổi của Device. Nghĩa là nếu thông tin Device đã thay đổi nhưng vẫn chưa đến lượt poll kế tiếp thì Manager vẫn giữ thông tin cũ.                            & Ngay khi có sự kiện xảy ra thì Device sẽ gửi Alert đến Manager, do đó Manager luôn luôn có thông tin mới nhất tức thời.                                                                                                                       \\ \hline
+Có thể bỏ sót các sự kiện : khi Device có thay đổi, sau đó thay đổi trở lại như ban đâu trước khi đến lượt poll kế tiếp thì Manager sẽ không phát hiện được.                                                                                                   & Manager sẽ được thông báo mỗi khi có sự kiện xảy ra ở Device, do đó Manager không bỏ sót bất kỳ sự kiện nào.                                                                                                                                  \\ \hline
+\end{longtable}
 \subsection{Giao thức quản lý mạng SNMP (Simple Network Management Protocol)}
 \subsubsection{Giới thiệu giao thức SNMP}
-\subsubsection{Ưu điểm của giao thức SNMP}
+SNMP (viết tắt từ tiếng Anh: Simple Network Management Protocol) là giao thức quản lý mạng đơn giản.\\
+
+Rõ thêm, giao thức là một tập hợp các thủ tục mà các bên tham gia cần tuân theo để có thể giao tiếp được với nhau. Trong lĩnh vực thông tin, một giao thức quy định cấu trúc, định dạng của dòng dữ liệu trao đổi với nhau và quy định trình tự, thủ tục để trao đổi dòng dữ liệu đó. Nếu một bên tham gia gửi dữ liệu không đúng định dạng hoặc không theo trình tự thì các bên khác sẽ không hiểu hoặc từ chối trao đổi thông tin. SNMP là một giao thức, do đó nó có những quy định riêng mà các thành phần trong mạng phải tuân theo. Một thiết bị hiểu được và hoạt động tuân theo giao thức SNMP được gọi là “có hỗ trợ SNMP” (SNMP supported) hoặc “tương thích SNMP” (SNMP compartible).\\
+
+SNMP dùng để quản lý mạng, nghĩa là nó được thiết kế để chạy trên nền TCP/IP và quản lý các thiết bị có kết nối mạng TCP/IP. Các thiết bị mạng không nhất thiết phải là máy tính mà có thể là switch, router, firewall, ADSL gateway, và cả một số phần mềm cho phép quản trị bằng SNMP.\\
+
+Giao thức SNMP sẽ giải quyết được các bài toán về giám sát tài nguyên máy chủ; giám sát hiệu năng, lưu lượng trên các thiết bị mạng; hệ thống cảnh báo sự cố tức thời.\\
+
+SNMP là giao thức đơn giản, do nó được thiết kế đơn giản trong cấu trúc bản tin và thủ tục hoạt động, bảo mật. Sử dụng phần mềm SNMP, người quản trị mạng có thể quản lý, giám sát tập trung từ xa toàn mạng của mình.
+\subsubsection{Ưu nhược điểm của giao thức SNMP}
+\textbf{Ưu điểm của thiết kế SNMP}\\
+
+SNMP được thiết kế đơn giản hóa quá trình quản lý các thành phần trong mạng. Nhờ đó các phần mềm SNMP có thể được phát triển nhanh và tốn ít chi phí.\\
+
+SNMP được thiết kế có thể mở rộng các chức năng quản lý, giám sát. Không có giới hạn rằng SNMP có thể quản lý được cái gì. Khi có một thiết bị mới với các thuộc tính, tính năng mới thì người ta có thể thiết kế “custom” SNMP để phục vụ cho riêng mình.\\
+
+SNMP được thiết kế có thể hoạt động độc lập với các kiến trúc và cơ chế của các thiết bị hỗ trợ SNMP. Các thiết bị khác nhau có hoạt động khác nhau nhưng đáp ứng SNMP là giống nhau.\\
+
+\textbf{Nhược điểm của SNMP}\\
+
+Làm tăng lưu lượng đáng kể.\\
+
+Không có sự điều khiển tổng hợp của nhiều nơi quản lý.\\
 \subsubsection{Các phiên bản giao thức SNMP}
+SNMP có 4 phiên bản: SNMPvl, SNMPv2c, SNMPv2u và SNMPv3. Các phiên bản này khác nhau một chút ớ định dạng bán tin và phương thức hoạt động. Hiện tại SNMPvl là phổ biến nhất do có nhiều thiết bị tương thích nhất và có nhiều phần mềm hồ trợ nhất. Trong khi đó chỉ có một số thiết bị và phần mềm hỗ trợ SNMPv3. 
 \subsubsection{Mô hình hệ thống mạng sử dụng SNMP}
 \subsubsection{Kiến trúc giao thức SNMP}
 \subsubsection{Các cơ chế bảo mật trong SNMP}
