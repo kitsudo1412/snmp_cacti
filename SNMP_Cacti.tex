@@ -119,7 +119,7 @@ Em xin chân thành cảm ơn thầy Nguyễn Tuấn Dũng đã tận tình truy
 
 %---------------------------------------------------
 %---------------------------------------------------
-\chapter{Tìm hiểu về giao thức SNMP}
+\chapter{GIAO THỨC SNMP VÀ CÁC VẤN ĐỀ LIÊN QUAN}
 \section{Tổng quan về quản lý hệ thống mạng}
 \subsection{Khái niệm quản lý hệ thống mạng}
 Quản lý hệ thống mạng là việc thực hiện tập hợp các chức năng cần thiết cho việc kiểm soát, lập kế hoạch, phân bổ, triển khai, phối hợp và giám sát các nguồn tài nguyên trong hệ thống. Nó thường được áp dụng cho các mạng quy mô lớn như mạng máy tính và mạng viễn thông, đề cập đến việc duy trì và quản trị mạng ở cấp cao nhất.
@@ -199,11 +199,38 @@ SNMP có 4 phiên bản: SNMPvl, SNMPv2c, SNMPv2u và SNMPv3. Các phiên bản 
 \subsection{Các thành phần chính của giao thức SNMP}
 Theo RFC1157, kiến trúc của SNMP bao gồm 2 thành phần: các trạm quản lý mạng (Network Management Station) và các thành tố mạng (Network Element) 3. Network Management Station thường là một máy tính chạy phần mềm quản lý SNMP (SNMP management application), dùng để giám sát và điều khiển tập trung các network element.
 \subsection{Kiến trúc giao thức SNMP}
+
+ Giao tiếp giữa management và element:
+\begin{center}
+	\includegraphics[scale=1]{images/kientrucsnmp.jpg}
+\end{center}
+Kiến trúc của SNMP bao gồm 2 thành phần:
+
+- Các trạm quản lý mạng (network management station) : thường là một máy tính chạy phần mềm quản lý SNMP. Nhiệm vụ dùng để giám sát và điều khiển tập trung các network element.
+
+- Các thành tố mạng(network element): device, host và application.
+
+- SNMP agent: là một tiến trình (process) chạy trển network element. Nhiệm vụ cung cấp thông tin của element cho station, nhờ đó station có thể quản lý element.
+
+{\bf Chú ý:} 
+
++ Một mangagement station có thể quản lý nhiều element, một 
+
++ Nếu 2 station tác động đến cùng một element thì element sẽ đáp ứng 2 tác động theo thứ tự cái nào đến trước sẽ xử lí trước.
+
 \subsection{Các cơ chế bảo mật trong SNMP}
+Cơ chế bảo mật đơn giản gồm có: community string, view và SNMP access control list.
 
+{\it Community string}: là một chuỗi ký tự được cài đặt giống nhau trên cả SNMP manager và SNMP agent, đóng vai trò như "mật khẩu" giữa 2 bên khi trao đổi giữa liêu. Community string có 3 loại: Read-community, Write-Community và Trap-Community. Khi agent nhận được bản tin request thì nó sẽ so sánh Read-community do manager gửi và Read-community mà được cài đặt. Nếu 2 chuỗi này giống nhau, agent sẽ trả lời; còn nếu không thì agent sẽ không trả lời.
 
-\chapter{Công cụ giám sát mạng Cacti}
+{\it View}: Khi manager có read-community thì nó đọc toàn bộ OID của agent. Tuy nhiên agent quy định chỉ cho phép đọc một số OID có liên quan nhau- một phần của MIB. Tập con này gọi là view.
+
+{\it SNMP access control list}: SNMP ACL là một danh sách các địa chỉ IP được phép quản lý/giám sát agent, nó chỉ áp dụng riêng cho giao thức SNMP và được cài trên agent. Nếu một manager có IP không được phép trong ACL gửi request thì agent sẽ không xử lý, dù request có community string là đúng. Đa số các thiết bị tương thích SNMP đều cho phép thiết lập SNMP ACL.
+\chapter{CÔNG CỤ GIÁM SÁT MẠNG CACTI}
 \section{Giới thiệu về công cụ giám sát mạng Cacti}
+Sự phát triển của các thiết bị phần cứng mạng như : máy tính cá nhân, máy chủ, thiết bị định tuyến, Switch, Hub, \ldots và các dịch vụ mạng truyển file FTP, VPN, MAIL, \ldots đòi hỏi lớn hơn về băng thông mạng.
+
+Quản lý mạng có thể xem như quản lý tất cả các tài nguyên mạng nhằm duy trì và đảm bảo sự ổn định của toàn bộ hệ thống mạng, đảm bảo an toàn thông tin trên mạng và mở rộng mạng. Hiện nay có rất nhiều phần mềm quản lý hệ thống tài nguyên mạng sử dụng thiết bị phần cứng đắt tiền. Tuy nhiên một số phần mềm nguồn mở cũng đáp ứng một cách toàn diện với nhiều tính năng linh hoat vượt trội. Với các phần mềm CACTI có khả năng bổ sung nhiều chương trình plugins giúp giải quyết được toàn bộ những khó khăn của doanh nghiệp trong việc quản lý tài nguyên, cho phép quản lý sự cố, quản lý topo mạng và cấu hình thiết bị mạng. Tất cả tạo nên một hệ thống mạng chủ động. 
 \section{Kiến trúc phần mềm Cacti}
 \section{Cài đặt Cacti trên Windows}
 \section{Triển khai và ứng dụng Cacti trong giám sát mạng}
