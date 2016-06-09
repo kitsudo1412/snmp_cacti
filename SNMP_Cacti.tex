@@ -9,7 +9,7 @@
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{tabularx}
 \usepackage{longtable}
-
+\usepackage{listings}
 \usepackage[portrait, top=3.5 cm, bottom=3cm, left=3.5cm, right=2cm] {geometry}
 % colors for hyperlinks
 % colored borders (false) colored text (true)
@@ -357,10 +357,169 @@ Cơ chế bảo mật đơn giản gồm có: community string, view và SNMP ac
 Sự phát triển của các thiết bị phần cứng mạng như : máy tính cá nhân, máy chủ, thiết bị định tuyến, Switch, Hub, \ldots và các dịch vụ mạng truyển file FTP, VPN, MAIL, \ldots đòi hỏi lớn hơn về băng thông mạng.
 
 Quản lý mạng có thể xem như quản lý tất cả các tài nguyên mạng nhằm duy trì và đảm bảo sự ổn định của toàn bộ hệ thống mạng, đảm bảo an toàn thông tin trên mạng và mở rộng mạng. Hiện nay có rất nhiều phần mềm quản lý hệ thống tài nguyên mạng sử dụng thiết bị phần cứng đắt tiền. Tuy nhiên một số phần mềm nguồn mở cũng đáp ứng một cách toàn diện với nhiều tính năng linh hoat vượt trội. Với các phần mềm CACTI có khả năng bổ sung nhiều chương trình plugins giúp giải quyết được toàn bộ những khó khăn của doanh nghiệp trong việc quản lý tài nguyên, cho phép quản lý sự cố, quản lý topo mạng và cấu hình thiết bị mạng. Tất cả tạo nên một hệ thống mạng chủ động. 
-\section{Kiến trúc phần mềm Cacti}
-\section{Cài đặt Cacti trên Windows}
+\section{Cài đặt Cacti trên CentOS}
+Trước khi cài đặt Cacti, ta cần cài đặt môi trường apache với php, mysql và các dịch vụ SNMP. 
+
+\textbf{Bước 1}: Cài đặt Apache, MySQL và PHP
+
+\begin{lstlisting}
+# yum install mysql-server mysql php php-mysql httpd
+\end{lstlisting}
+
+\textbf{Bước 2}: Khởi động MySQL và Apache
+
+\begin{lstlisting}
+# chkconfig --level 235 httpd on
+# service httpd start
+# chkconfig --level 235 mysqld on
+# service mysqld start
+\end{lstlisting}
+
+\textbf{Bước 3}: Cấu hình MySQL
+
+\begin{lstlisting}
+# mysqladmin -u root password 'newpassword'
+\end{lstlisting}
+
+Cài đặt bảo mật cho MySQL
+
+\begin{lstlisting}
+# /usr/bin/mysql_secure_installation
+\end{lstlisting}
+
+\textbf{Bước 4}: Tạo CSDL 'cactidb'
+
+\begin{lstlisting}
+# mysql -u root -p
+\end{lstlisting}
+
+\begin{lstlisting}
+mysql> create database cactidb;
+Query OK, 1 row affected (0.00 sec)
+\end{lstlisting}
+
+\begin{lstlisting}
+mysql> GRANT ALL ON cactidb.* TO usercacti@localhost
+IDENTIFIED BY 'passwordcacti';
+Query OK, 0 rows affected (0.00 sec)
+mysql> quit
+\end{lstlisting}
+
+\textbf{Bước 5}: Cài đặt SNMP
+
+\begin{lstlisting}
+# yum install net-snmp-utils php-snmp net-snmp-libs
+\end{lstlisting}
+
+Đổi tên snmpd.conf và tạo ra 1 file mới
+
+\begin{lstlisting}
+# mv /etc/snmp/snmpd.conf snmpd.conf.org
+# touch /etc/snmp/snmpd.conf
+\end{lstlisting}
+
+\textbf{Bước 7}: Thêm vào file /etc/snmp/snmpd.conf
+
+\begin{lstlisting}
+com2sec local     localhost           public
+group MyRWGroup v1         local
+group MyRWGroup v2c        local
+group MyRWGroup usm        local
+view all    included  .1                 80
+access MyRWGroup ""      any       noauth    exact  all    all    none
+syslocation srvroom , linux monitor
+syscontact krizna  (admin@krizna.com)
+\end{lstlisting}
+
+\textbf{Bước 8}: Bật SNMP
+
+\begin{lstlisting}
+# chkconfig --level 235 snmpd on
+# service snmpd start
+\end{lstlisting}
+
+\textbf{Bước 9}: Kiểm tra cấu hình SNMP
+
+\begin{lstlisting}
+# snmpwalk -v 1 -c public localhost IP-MIB::ipAdEntIfIndex
+IP-MIB::ipAdEntIfIndex.127.0.0.1 = INTEGER: 1
+IP-MIB::ipAdEntIfIndex.192.168.1.10 = INTEGER: 2
+\end{lstlisting}
+
+\textbf{Bước 10}: Cài đặt EPEL rpm mới nhất
+
+\begin{lstlisting}
+# rpm -ivh http://ftp.jaist.ac.jp/pub/Linux/Fedora...
+/epel/6/i386/epel-release-6-8.noarch.rpm
+\end{lstlisting}
+
+\textbf{Bước 11}: Cài đặt Cacti
+
+\begin{lstlisting}
+# yum install cacti
+\end{lstlisting}
+
+\textbf{Bước 12}: Nhập CSDL Cacti từ cacti.sql
+
+\begin{lstlisting}
+# rpm -ql cacti | grep cacti.sql
+/usr/share/doc/cacti-0.8.8a/cacti.sql
+
+# mysql -u root -p cactidb ...
+< /usr/share/doc/cacti-0.8.8a/cacti.sql
+\end{lstlisting}
+
+\textbf{Bước 13}: Cấu hình file /etc/cacti/db.php
+
+\begin{lstlisting}
+$database_default = "cactidb";
+$database_hostname = "localhost";
+$database_username = "usercacti";
+$database_password = "passwordcacti";
+\end{lstlisting}
+
+\textbf{Bước 14}: Sửa file /etc/httpd/conf.d/cacti.conf và comment tất cả các dòng “Deny from all”
+
+\textbf {Bước 15}: Sửa file /etc/cron.d/cacti
+\begin{lstlisting}
+*/5 * * * * cacti /usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1
+\end{lstlisting}
+
+\textbf{Bước 16}: Khởi động lại Apache và Cron
+
+\begin{lstlisting}
+# service httpd restart
+# service crond restart
+\end{lstlisting}
+
+\textbf{Bước 17}: Bật http://localhost/cacti
+
+Trước đó nên tắt tường lửa và SELinux
+
+\begin{lstlisting}
+# service iptables stop
+# chkconfig iptables off
+\end{lstlisting}
+
+Mở file /etc/selinux/config, tìm dòng:
+\begin{lstlisting}
+SELINUX=enforcing
+\end{lstlisting}
+thay bằng
+\begin{lstlisting}
+SELINUX=disabled
+\end{lstlisting}
+
+Khở động lại máy.
+
+\textbf{Bước 18}: Đăng nhập và đổi mật khẩu mặc định với tài khoản admin/admin
+
+\begin{center}
+	\includegraphics[scale=0.6]{images/cacti-login.jpg}\\
+	Cài đặt Cacti thành công
+\end{center}
+
 \section{Triển khai và ứng dụng Cacti trong giám sát mạng}
-\subsection{Mô hình triển khai}
 \subsection{Cấu hình Cacti}
 
 \newpage
