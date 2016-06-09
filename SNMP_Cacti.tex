@@ -155,7 +155,7 @@ Device chỉ gửi những thông báo mang tính sự kiện chứ không gửi
 Hai phương thức Poll và Alert là hoàn toàn khác nhau về cơ chế. Một ứng dụng giám sát có thể sử dụng Poll hoặc Alert, hoặc cả hai, tùy vào yêu cầu cụ thể trong thực tế.
 
 Bảng sau so sánh những điểm khác biệt của 2 phương thức:
-
+\newpage
 \begin{longtable}{|p{8cm}|p{8cm}|}
 \hline
 \rowcolor[HTML]{EFEFEF} 
@@ -183,21 +183,114 @@ SNMP là giao thức đơn giản, do nó được thiết kế đơn giản tro
 
 \textbf{Ưu điểm của thiết kế SNMP}
 
-+)SNMP được thiết kế đơn giản hóa quá trình quản lý các thành phần trong mạng. Nhờ đó các phần mềm SNMP có thể được phát triển nhanh và tốn ít chi phí.
++) SNMP được thiết kế đơn giản hóa quá trình quản lý các thành phần trong mạng. Nhờ đó các phần mềm SNMP có thể được phát triển nhanh và tốn ít chi phí.
 
-+)SNMP được thiết kế có thể mở rộng các chức năng quản lý, giám sát. Không có giới hạn rằng SNMP có thể quản lý được cái gì. Khi có một thiết bị mới với các thuộc tính, tính năng mới thì người ta có thể thiết kế “custom” SNMP để phục vụ cho riêng mình.
++) SNMP được thiết kế có thể mở rộng các chức năng quản lý, giám sát. Không có giới hạn rằng SNMP có thể quản lý được cái gì. Khi có một thiết bị mới với các thuộc tính, tính năng mới thì người ta có thể thiết kế “custom” SNMP để phục vụ cho riêng mình.
 
-+)SNMP được thiết kế có thể hoạt động độc lập với các kiến trúc và cơ chế của các thiết bị hỗ trợ SNMP. Các thiết bị khác nhau có hoạt động khác nhau nhưng đáp ứng SNMP là giống nhau.
++) SNMP được thiết kế có thể hoạt động độc lập với các kiến trúc và cơ chế của các thiết bị hỗ trợ SNMP. Các thiết bị khác nhau có hoạt động khác nhau nhưng đáp ứng SNMP là giống nhau.
 
 \textbf{Nhược điểm của SNMP}
 
-+)Làm tăng lưu lượng đáng kể.
++) Làm tăng lưu lượng đáng kể.
 
-+)Không có sự điều khiển tổng hợp của nhiều nơi quản lý.
++) Không có sự điều khiển tổng hợp của nhiều nơi quản lý.
 \subsection{Các phiên bản giao thức SNMP}
-SNMP có 4 phiên bản: SNMPvl, SNMPv2c, SNMPv2u và SNMPv3. Các phiên bản này khác nhau một chút ớ định dạng bán tin và phương thức hoạt động. Hiện tại SNMPvl là phổ biến nhất do có nhiều thiết bị tương thích nhất và có nhiều phần mềm hồ trợ nhất. Trong khi đó chỉ có một số thiết bị và phần mềm hỗ trợ SNMPv3. 
+SNMP có 4 phiên bản: SNMPvl, SNMPv2c, SNMPv2u và SNMPv3. Các phiên bản này khác nhau một chút ớ định dạng bán tin và phương thức hoạt động. Hiện tại SNMPvl là phổ biến nhất do có nhiều thiết bị tương thích nhất và có nhiều phần mềm hồ trợ nhất. Trong khi đó chỉ có một số thiết bị và phần mềm hỗ trợ SNMPv3.
+
+- \textbf{Phiên bản SNMPv1}: phiên bản đầu tiên của SNMP, có 5 phương thức Get, GetNext, Set, Response, Trap. 
+
+\begin{itemize}
+
+\item GetRequest: Bản tin GetRequest được manager gửi đến agent để lấy một thông tin nào đó. Trong GetRequest có chứa ID của object muốn lấy. Ví dụ: Muốn lấy thông tin tên của Device1 thì manager gửi bản tin GetRequest ID=1.3.6.1.2.1.1.5 đến Device1, tiến trình SNMP agent trên Device1 sẽ nhận được bản tin và tạo bản tin trả lời. Trong một bản tin GetRequest có thể chứa nhiều OID, nghĩa là dùng một GetRequest có thể lấy về cùng lúc nhiều thông tin.
+
+\item GetNextRequest: Bản tin GetNextRequest cũng dùng để lấy thông tin và cũng có chứa OID, tuy nhiên nó dùng để lấy thông tin của object nằm kế tiếp object được chỉ ra trong bản tin. Chúng ta đã biết khi đọc qua những phần trên: một MIB bao gồm nhiều OID được sắp xếp thứ tự nhưng không liên tục, nếu biết một OID thì không xác định được OID kế tiếp. Do đó ta cần GetNextRequest để lấy về giá trị của OID kế tiếp. Nếu thực hiện GetNextRequest liên tục thì ta sẽ lấy được toàn bộ thông tin của agent.
+
+\item SetRequest: Bản tin SetRequest được manager gửi cho agent để thiết lập giá trị cho một object nào đó. Ví dụ: Có thể đặt lại tên của một máy tính hay router bằng phần mềm SNMP manager, bằng cách gửi bản tin SetRequest có OID là 1.3.6.1.2.1.1.5.0 (sysName.0) và có giá trị là tên mới cần đặt.
+
+\item GetResponse: Mỗi khi SNMP agent nhận được các bản tin GetRequest, GetNextRequest hay SetRequest thì nó sẽ gửi lại bản tin GetResponse để trả lời. Trong bản tin GetResponse có chứa OID của object được request và giá trị của object đó. 
+
+\item Trap: Bản tin Trap được agent tự động gửi cho manager mỗi khi có sự kiện xảy ra bên trong agent, các sự kiện này không phải là các hoạt động thường xuyên của agent mà là các sự kiện mang tính biến cố. Ví dụ: Khi có một port down, khi có một người dùng login không thành công, hoặc khi thiết bị khởi động lại, agent sẽ gửi trap cho manager. Tuy nhiên không phải mọi biến cố đều được agent gửi trap, cũng không phải mọi agent đều gửi trap khi xảy ra cùng một biến cố. Việc agent gửi hay không gửi trap cho biến cố nào là do hãng sản xuất device/agent quy định.
+\end{itemize}
+
+\begin{center}
+	\includegraphics[scale=1]{images/snmpv1.jpg}\\
+	Các phương thức trong SNMPv1
+\end{center}
+
+- \textbf{Phiên bản SNMPv2}: SNMPv2 tích hợp khả năng liên điều hành từ manager tới manager và hai đơn vị dữ liệu giao thức mới. Khả năng liên kết điều hành manager- manager cho phép SNMP hỗ trợ quản lí mạng phân tán trong một trạm và gửi báo cáo tới một trạm khác. Hai đơn vị dữ liệu giao thức PDU (Protocol Data Unit) là GetbulkRequest và InformRequest. Các PDU này liên quan tới xử lý lỗi và khả năng đếm của SNMPv2. Khả năng đếm trong SNMPv2 sử dụng bộ đếm 64 bit (hoặc 32) để duy trì trạng thái của các liên kết và giao diện.
+
+\textbf{MIB cho SNMPv2}: MIB trong SNMPv2 định nghĩa các đối tượng mô tả tác động của một phần tử SNMPv2.MIB gồm 3 nhóm: 
+
++ Nhóm hệ thống (System group): là một mở rộng của nhóm system trong MIB-II gốc, bao gồm một nhóm các đối tượng cho phép một Agent SNMPv2 mô tả các đối tượng tài nguyên của nó. 
+
++ Nhóm SNMP (SNMP group): một cải tiến của nhóm SNMP trong MIB-II gốc, bao gồm các đối tượng cung cấp các công cụ cơ bản cho hoạt động giao thức. 
+
++ Nhóm các đối tượng MIB (MIB objects group): một tập hợp các đối tượng liên quan đến các SNMPv2-trap PDU và cho phép một vài phần tử SNMPv2 cùng hoạt động, thực hiện như trạm quản trị, phối hợp việc sử dụng của chúng trong toán tử Set của SNMPv2 
+
+Nhóm hệ thống: nhóm system định nghĩa trong SNMPv2 giống trong MIB-II và bổ sung một vài đối tượng mới. 
+
+Nhóm SNMP: Nhóm này gần giống như nhóm SNMP đươc định nghĩa trong MIB-II nhưng có thêm một số đối tượng mới và loại bỏ một số đối tượng ban đầu. Nhóm SNMP chứa một vài thông tin lưu lượng cơ bản liên quan đến toán tử SNMPv2 và chỉ cómột trong các đối tượng là bộ đệm chỉ đọc 32-bit.
+
+Nhóm đối tượng MIB: Nhóm các đối tượng MIB chứa các đối tượng thích hợp thêm vào việc điều khiển các đối tượng MIB. 
+
+\newpage
+
+\textbf{Cấu trúc bản tin SNMPv2}: 
+
+\begin{center}
+	\includegraphics[scale=0.7]{images/snmpv2.jpg}\\
+	Cấu trúc bản tin SNMPv2
+\end{center}
+
+Trường phiên bản (Version) thể hiện phiên bản của giao thức SNMPv2. 
+
+Trường Community là một chuỗi password xác nhận cho cả tiến trình lấy và thay đổi dữ liệu. SNMP PDU chứa kiểu điều hành (get, set), yêu cầu đáp ứng (cùng số thứ tự với bản tin gửi đi) - cho phép người điều hành gửi đồng thời nhiều bản tin. Biến ghép gồm các thiết bị được đặc tả trong RFC 2358 và chứa cả giá trị đặt tới đối tượng. Trường đơn vị dữ liệu giao thức (PDU) gồm có các trường con: Kiểu đơn vị dữ liệu giao thức, nhận dạng các yêu cầu (Request ID), trạng thái lỗi, chỉ số lỗi, các giá trị và đối tượng. 
+
+Các kiểu đơn vị dữ liệu giao thức PDU thể hiện các bản tin sử dụng trong SNMPv2 gồm có: 
+
+\textit{GetRequest}: Câu lệnh GetRequest được sử dụng giữa Manager tới Agent. Câu lệnh này được sử dụng để đọc biến MIB đơn hoặc danh sách các biến MIB từ các Agent đích.
+
+\textit{GetNextRequest}: Câu lệnh GetNextRequest tương tự như câu lệnh GetRequest, tuy nhiên tuỳ thuộc vào agent trong khoản mục kế tiếp của MIB. Các biến được lưu trong thiết bị và được coi như đối tượng bị quản lí. Vì vậy,câu lệnh GetNextRequest mở rộng các biến và được đọc theo tuần tự. 
+
+\textit{SetRequest}: Câu lệnh SetRequest là câu lệnh được gửi đi từ Manager tới Agent như hai câu lệnh trên. SetRequest tìm kiếm các thông tin mở rộng trongbảng MIB và yêu cầu Agent đặt giá trị cho các đối tượng quản lý hoặc các đối tượng chứa trong câu lệnh. 
+
+\textit{GetResponse}: Câu lệnh GetResponse là câu lệnh từ Agent tới Manager. Câu lệnh này cung cấp cơ chế đáp ứng cho các câu lệnh GetRequest, GetNextRequest và SetRequest. 
+
+\textit{Trap}: Trap là câu lệnh độc lập, không phụ thuộc vào đáp ứng hoặc yêu cầu từcác Manager hoặc các Agent. Trap đưa ra các thông tin liên quan tới các điều kiện được định nghĩa trước và được gửi từ các Agent tới Manager. 
+
+\textit{GetBulkRequest}: Chức năng của câu lệnh GetBulkRequest tương tự như câu lệnh GetNextRequest ngoại trừ vấn đề liên quan tới số lượng dữ liệu được lấy ra. GetBulkRequest cho phép Agent gửi lại Manager dữ liệu liên quan tới nhiều đối tượng thay vì từng đối tượng bị quản lý. Như vậy, GetBulkRequest có thể giảm bớt lưu lượng truyền dẫn và các bản tin đáp ứng thông báo về các điều kiện vi phạm.
+ 
+\textit{InformRequest}: Câu lệnh InformRequest cung cấp khả năng hỗ trợ các Manager bố trí theo cấu hình phân cấp.Câu lệnh này cho phép một Manager trao đổi thông tin với các Manager khác. 
+
+Trong trường PDU Type, các giá trị thể hiện như sau: \\
+
+\begin{center}
+	\includegraphics[scale=1]{images/snmpv2_2.jpg}\\
+	Bảng thông tin trong trường PDU
+\end{center}
+
+- \textbf{Phiên bản SNMPv3}: SNMPv3 dựa trên việc thực hiện giao thức, loại dữ liệu và uỷ quyền như SNMPv2 và cải tiến phần an toàn. SNMPv3 cung cấp an toàn truy nhập vào các thiết bị bằng cách kết hợp sự xác nhận và mã khoá các gói tin trên mạng. 
+
+Những đặc điểm bảo mật cung cấp trong SNMPv3 là:
+
++ Tính toàn vẹn thông tin: Đảm bảo các gói tin không bị sửa trong khi truyền. 
+
++ Sự xác nhận: Xác nhận nguồn của thông tin gửi đến. 
+
++ Mã khoá: Đảo nội dung của gói tin, ngăn cản việc gửi thông báo từ nguồn không được xác nhận. 
+
+Tuy nhiên việc sử dụng SNMPv3 rất phức tạp và cồng kềnh dù nó là sự lựa chọn tốt nhất cho vấn đề bảo mật của mạng. Việc sử dụng sẽ tốn rất nhiều tài nguyên do trong mỗi bản tin truyền đi sẽ có phần mã hóa BER. Phần mã hóa này sẽ chiếm một phần băng thông đường truyền do đó làm tăng phí tổn mạng. Mặc dù được coi là phiên bản đề nghị cuối cùng và được coi là đầy đủ nhất nhưng SNMPv3 vẫn chỉ là tiêu chuẩn dự thảo và vẫn đang được nghiên cứu hoàn thiện. 
+
+Khuôn dạng bảng tin SNMPv3: RFC 2572 định nghĩa các khuôn dạng bản tin SNMPv3. Khuôn dạng bản tin SNMPv3 được phân chia trong trong bốn phần Dữ liệu chung (Common data) - Trường này xuất hiện trong tất cả các bản tin SNMPv3. 
+
+Bảo mật mô hình dữ liệu (Security model data) - Vùng này có ba phần: phần chung, phần dành cho sự chứng thực và phần cho dữ liệu riêng. 
+
+Context – Hai trường nhận dạng và tên được dùng để cung cấp context cho PDU nào sẽ phải xử lý. 
+
+PDU – Vùng này chứa một SNMPv2c PDU. 
+
 \subsection{Các thành phần chính của giao thức SNMP}
-Theo RFC1157, kiến trúc của SNMP bao gồm 2 thành phần: các trạm quản lý mạng (Network Management Station) và các thành tố mạng (Network Element) 3. Network Management Station thường là một máy tính chạy phần mềm quản lý SNMP (SNMP management application), dùng để giám sát và điều khiển tập trung các network element.
+Theo RFC1157, kiến trúc của SNMP bao gồm 2 thành phần: các trạm quản lý mạng (Network Management Station) và các thành tố mạng (Network Element). Network Management Station thường là một máy tính chạy phần mềm quản lý SNMP (SNMP management application), dùng để giám sát và điều khiển tập trung các network element.
 \subsection{Kiến trúc giao thức SNMP}
 
  Giao tiếp giữa management và element:
@@ -217,6 +310,39 @@ Kiến trúc của SNMP bao gồm 2 thành phần:
 + Một mangagement station có thể quản lý nhiều element, một 
 
 + Nếu 2 station tác động đến cùng một element thì element sẽ đáp ứng 2 tác động theo thứ tự cái nào đến trước sẽ xử lí trước.
+
+\subsection{Quản lý giao tiếp trong SNMP}
+
+Hệ thống quản lý mạng dựa trên SNMP gồm ba thành phần: bộ phận quản lý (manager), thiết bịchịu sự quản lý – còn gọi là đại lý (agent) và cơ sởdữ liệu gọi là Cơ sở thông tin quản lý (MIB). Mặc dù SNMP là một giao thức quản lý việc chuyển giao thông tin giữa ba thực thể trên, song nó cũng định nghĩa mối quan hệ client-server (chủ tớ). Cơ sở dữ liệu do agent SNMP quản lý là đại diện cho MIB của SNMP. Minh họa mối quan hệ giữa ba thành phần SNMP này.
+
+\begin{center}
+	\includegraphics[scale=0.8]{images/giaotiepsnmp.jpg}\\
+	Mối quan hệ giữa các thành phần SNMP
+\end{center}
+
+\subsubsection{Bộ phận quản lý (manager)} 
+
+Bộ phận quản lý là một chương trình vận hành trên một hoặc nhiều máy tính trạm. 
+
+Tùy thuộc vào cấu hình, mỗi bộ phận quản lý có thể được dùng để quản lý một mạng con, hoặc nhiều bộ phận quản lý có thể được dùng để quản lý cùng một mạng con hay một mạng chung. Tương tác thực sự giữa một người sử dụng cuối (end-user) và bộ phận quản lý được duy trì qua việc sử dụng một hoặc nhiều chương trình ứng dụng mà, cùng với bộ phận quản lý, biến mặt bằng phần cứng thành trạm quản lý mạng (NMS). Ngày nay, trong thời kỳ các chương trình giao diện người sử dụng đồ họa (GUI), hầu hết những chương trình ứng dụng sẽ cho ra giao diện sử dụng con trỏ và chuột để phối hợp hoạt động với bộ phận quản lý tạo ra những bản đồ họa và biểu đồ cung cấp những tổng kết hoạt động của mạng dưới dạng thấy được. Qua bộ phận quản lý, những yêu cầu được chuyển tới một hoặc nhiều thiết bị chịu sự quản lý ban đầu SNMP được phát triển để sử dụng trên mạng TCP/IP và những mạng này tiếp tục làm mạng vận chuyển cho phần lớn các sản phẩm quản lý mạng dựa trên SNMP. Tuy nhiên SNMP cũng có thể được chuyển qua NetWare IPX và những cơ cấu vận chuyển khác.
+
+\subsubsection{Agent}
+
+Thiết bị chịu sự quản lý (Agent) là một nút mạng hỗ trợ giao thức SNMP và thuộc về mạng bịquản lý. Thiết bị có nhiệm vụ thu thập thông tin quản lý và lưu trữ để phục vụ cho hệ thống quản lý mạng. Những thiết bị chịu sự quản lý, đôi khi được gọi là những phần tử mạng, có thể là các bộ định tuyến và máy chủ truy nhập (Access Server), switch, bridge, hub và máy tính hay là máy in trong mạng. Mỗi thiết bị chịu sự quản lý bao gồm phần mềm hoặc phần sụn (firmware) dưới dạng mã phiên dịch những yêu cầu SNMP và đáp ứng của những yêu cầu đó. Phần mềm hoặc phần sụn này được coi là một agent. Mặc dù mỗi thiết bị bắt buộc bao gồm một agent chịu quản lý trực tiếp, những thiết bị không tương thích với SNMP cũng có thể quản lý được nếu như chúng hỗ trợ một giao thức quản lý độc quyền. Để thực hiện được điều này phải có agent ủy nhiệm (proxy agent). Proxy agent này có thể được coi như một bộ chuyển đổi giao thức vì nó phiên dịch những yêu cầu SNMP thành giao thức quản lý độc quyền của thiết bị không hoạt động theo giao thức SNMP. Mặc dù SNMP chủ yếu là giao thức đáp ứng thăm dò (poll-respond) với những yêu cầu do bộ phận quản lý tạo ra dẫn đến những đáp ứng trong agent, agent cũng có khả năng đề xướng ra một “đáp ứng tự nguyện”. Đáp ứng tự nguyện này là điều kiện cảnh báo từ việc giám sát agent với hoạt động đã được định nghĩa trước và đáp ứng này cảnh báo việc agent đã tới ngưỡng định trước. Dưới sự điều khiển SNMP, việc truyền cảnh báo này được gọi là cái bẫy (TRAP).
+
+\subsubsection{Cơ sở thông tin quản lý – MIB}
+
+Mỗi thiết bị chịu sự quản lý có thể có cấu hình, trạng thái và thông tin thống kê định nghĩa chức năng và khả năng vận hành của thiết bị. Thông tin này rất đa dạng, có thể bao gồm việc thiết lập chuyển mạch phần cứng, những giá trị khác nhau lưu trữ trong các bảng ghi nhớ dữ liệu, bộ hồ sơ hoặc các trường thông tin trong hồ sơ lưu trữ ở các file và những biến hoặc thành phần dữ liệu tương tự. Nhìn chung, những thành phần dữ liệu này được coi là Cơ sở thông tin quản lý của thiết bị chịu sự quản lý. Xét riêng, mỗi thành phần dữ liệu biến đổi được coi là một đối tượng bị quản lý và bao gồm tên, một hoặc nhiều thuộc tính và một tập các hoạt động (operation) thực hiện trên đối tượng đó. Vì vậy MIB định nghĩa loại thông tin có thể khôi phục từ một thiết bị chịu sự quản lý và cách cài đặt thiết bị mà hệ thống quản lý điều khiển. 
+
+\begin{center}
+	\includegraphics[scale=0.8]{images/giaotiepsnmp2.jpg}\\
+	Mô hình giao thức hoạt động SNMP
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=0.8]{images/giaotiepsnmp3.jpg}\\
+	Vị trí của SNMP trong chồng giao thức TCP/IP
+\end{center}
 
 \subsection{Các cơ chế bảo mật trong SNMP}
 Cơ chế bảo mật đơn giản gồm có: community string, view và SNMP access control list.
@@ -252,10 +378,19 @@ Quản lý mạng có thể xem như quản lý tất cả các tài nguyên m�
 %\bibliographystyle{ksfh_nat}
 %	\bibliography{references} % expects file "references.bib"
 \begin{enumerate}
-\item{Wikipedia, "Simple Network Management Protocol", https://en.wikipedia.org/wiki/SNMP}
-\item{Wikipedia, "Network monitoring", https://en.wikipedia.org/wiki/Network\_monitoring}
-\item{TBT - VNCERT, "Tổng quan về hệ thống giám sát mạng", http://www.vncert.gov.vn/}
-\item{Diệp Thanh Nguyên, "SNMP Toàn tập", https://sites.google.com/site/snmptoantap/home}
+\item Wikipedia, "Simple Network Management Protocol",
+
+https://en.wikipedia.org/wiki/SNMP
+\item{Wikipedia, "Network monitoring",
+
+https://en.wikipedia.org/wiki/Network\_monitoring}
+\item{TBT - VNCERT, "Tổng quan về hệ thống giám sát mạng",
+
+http://www.vncert.gov.vn/}
+\item{Diệp Thanh Nguyên, "SNMP Toàn tập", 04/2010
+
+https://sites.google.com/site/snmptoantap/home}
+\item "Complete List of Cacti Scripts and Templates", topic 15067, Cacti Official Forums and Support.
 \end{enumerate}
 	
 \end{large}		
